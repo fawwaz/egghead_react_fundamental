@@ -3,24 +3,53 @@ import ReactDOM from 'react-dom';
 
 // Class component can have state
 class App extends React.Component {
+  constructor(){
+  	super();
+  	this.state = {
+  		val : 0
+  	};
+  	this.update = this.update.bind(this);
+  }
+  update(){
+  	this.setState({val : this.state.val +1 })
+  }
+  componentWillMount(){
+  	console.log('mounting')
+  }
   render(){
-    return (
-    	<Button>I <Heart /> React </Button>
-    );
+	    console.log('rendering... ');
+	    return <button onClick={this.update}>{this.state.val}</button>
+  }
+  componentDidMount(){
+  	console.log('component mounted')
+  }
+  componentWillUnMount(){
+  	console.log('bye!')
   }
 }
 
-class Button extends React.Component{
+class Wrapper extends React.Component{
+	constructor(){
+		super();
+	}
+	mount(){
+		ReactDOM.render(<App />, document.getElementById('a'))
+	}
+	unmount(){
+		ReactDOM.unmountComponentAtNode(document.getElementById('a'))
+	}
 	render(){
 		return (
-			<button>{this.props.children}</button>
+			<div>
+			<button onClick={this.mount.bind(this)}>Mount</button>
+			<button onClick={this.unmount.bind(this)}>UnMount</button>
+			<div id="a"></div>
+			</div>
 		);
 	}
 }
 
-const Heart = () => <span className="glyphicon glyphicon-heart"></span>
-
 ReactDOM.render(
-	<App />,
+	<Wrapper />,
 	document.getElementById('app')
 );
