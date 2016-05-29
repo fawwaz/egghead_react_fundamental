@@ -14,17 +14,19 @@ class App extends React.Component {
   	this.setState({val : this.state.val +1 })
   }
   componentWillMount(){
-  	console.log('mounting')
+  	// cannot access dom
+  	this.setState({m:2})
   }
   render(){
 	    console.log('rendering... ');
-	    return <button onClick={this.update}>{this.state.val}</button>
+	    return <button onClick={this.update}>{this.state.val * this.state.m}</button>
   }
   componentDidMount(){
-  	console.log('component mounted')
+  	console.log(ReactDOM.findDOMNode(this));
+  	this.inc = setInterval(this.update,500)
   }
   componentWillUnMount(){
-  	console.log('bye!')
+  	clearInteravl(this.inc)
   }
 }
 
